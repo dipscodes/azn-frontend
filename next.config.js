@@ -1,12 +1,23 @@
 module.exports = {
   images: {
-    // domains: ["via.placeholder.com"],
     remotePatterns: [
       {
+        protocol: "http",
+        hostname: "localhost",
+        port: "3210",
+        pathname: "/**",
+      },
+      {
         protocol: "https",
-        hostname: "via.placeholder.com",
+        hostname: "aznude.com",
         port: "",
-        pathname: "/600",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn2.aznude.com",
+        port: "",
+        pathname: "/**",
       },
     ],
   },

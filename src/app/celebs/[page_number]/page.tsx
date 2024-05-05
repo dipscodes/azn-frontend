@@ -1,5 +1,5 @@
 import Link from "next/link";
-import CelebCard from "../Components/CelebCard";
+import CelebCard from "@/app/Components/CelebCard";
 
 interface form {
   _id: string;
@@ -9,14 +9,17 @@ interface form {
   hashtag: string;
 }
 
-const Celebs = async () => {
-  const res = await fetch("http://localhost:3210/api/popularActresses/1", {
-    cache: "no-cache",
-  });
+const Celebs = async ({ params }: any) => {
+  const res = await fetch(
+    `http://localhost:3210/api/popularActresses/${params.page_number}`,
+    {
+      cache: "no-cache",
+    }
+  );
   const celebs: form[] = await res.json();
 
   return (
-    <div className="flex flex-col">
+    <div>
       <div className="text-sm breadcrumbs mb-5">
         <ul>
           <li>
@@ -26,7 +29,9 @@ const Celebs = async () => {
             <Link href="/celebs">Celebs</Link>
           </li>
           <li>
-            <Link href="/celebs/1">1</Link>
+            <Link href={`/celebs${params.page_number}`}>
+              {params.page_number}
+            </Link>
           </li>
         </ul>
       </div>
