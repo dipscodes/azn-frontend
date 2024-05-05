@@ -1,7 +1,7 @@
 import Link from "next/link";
 import CelebCard from "@/app/Components/CelebCard";
 
-interface form {
+interface celeb {
   _id: string;
   view_count: number;
   link: string;
@@ -9,14 +9,23 @@ interface form {
   hashtag: string;
 }
 
+interface count {
+  count: any;
+}
+
 const Celebs = async ({ params }: any) => {
-  const res = await fetch(
+  const res_celebs = await fetch(
     `http://localhost:3210/api/popularActresses/${params.page_number}`,
     {
       cache: "no-cache",
     }
   );
-  const celebs: form[] = await res.json();
+
+  const res_count = await fetch("http://localhost:3210/uniqueActressCount", {
+    cache: "no-cache",
+  });
+  const celebs: celeb[] = await res_celebs.json();
+  const celeb_count: count = await res_count.json();
 
   return (
     <div>
@@ -49,11 +58,15 @@ const Celebs = async ({ params }: any) => {
             <button className="join-item btn">2</button>
           </Link>
           <button className="join-item btn btn-disabled">...</button>
-          <Link href="/celebs/99">
-            <button className="join-item btn">99</button>
+          <Link href={`/celebs/${Math.floor(celeb_count.count / 30)}`}>
+            <button className="join-item btn">
+              {Math.floor(celeb_count.count / 30)}
+            </button>
           </Link>
-          <Link href="/celebs/100">
-            <button className="join-item btn">100</button>
+          <Link href={`/celebs/${Math.floor(celeb_count.count / 30 + 1)}`}>
+            <button className="join-item btn">
+              {Math.floor(celeb_count.count / 30 + 1)}
+            </button>
           </Link>
         </div>
       </div>
